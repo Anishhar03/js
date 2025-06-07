@@ -1,0 +1,143 @@
+What is Execution Context in JavaScript?
+An Execution Context (EC) is the environment in which JavaScript code is evaluated and executed.
+
+Every time a script or function runs, a new execution context is created.
+
+🔄 Types of Execution Context
+Global Execution Context (GEC)
+
+Created by default when the JS code starts running.
+
+Creates the window object (in browser) or global object (in Node).
+
+Binds this to global object.
+
+Function Execution Context (FEC)
+
+Created every time a function is called.
+
+Has its own arguments, variables, and this.
+
+Eval Execution Context (rare)
+
+Created when eval() is used. Avoid using eval.
+
+🧱 Structure of Execution Context
+Each EC has two phases:
+
+🔸 1. Creation Phase
+Memory is allocated.
+
+Hoisting happens (variables and function declarations are stored in memory).
+
+this is set.
+
+Scope chain is established.
+
+🔸 2. Execution Phase
+Code runs line by line.
+
+Variables are assigned values.
+
+Functions are executed.
+
+🔍 Example Breakdown:
+javascript
+Copy
+Edit
+var a = 2;
+
+function foo() {
+    var b = 3;
+    return a + b;
+}
+
+foo();
+👇 What Happens Behind the Scenes:
+🧠 Global Execution Context (GEC)
+🌐 Creation Phase:
+a → undefined
+
+foo → reference to function
+
+this → window (in browser)
+
+⚙️ Execution Phase:
+a = 2
+
+foo() is called → creates Function Execution Context
+
+🧠 Function Execution Context (FEC)
+🌐 Creation Phase:
+b → undefined
+
+arguments → {} (empty)
+
+this → window
+
+⚙️ Execution Phase:
+b = 3
+
+return a + b → 2 + 3 = 5
+
+🔁 Call Stack (Execution Stack)
+JavaScript uses a Call Stack (LIFO) to manage execution contexts.
+
+Example:
+javascript
+Copy
+Edit
+function one() {
+  console.log("one");
+  two();
+}
+
+function two() {
+  console.log("two");
+}
+
+one();
+Stack Behavior:
+GEC pushed
+
+one() → FEC for one pushed
+
+two() → FEC for two pushed
+
+console.log("two")
+
+FEC for two popped
+
+console.log("one")
+
+FEC for one popped
+
+GEC popped (end of script)
+
+🔄 Hoisting in Creation Phase
+javascript
+Copy
+Edit
+console.log(a); // undefined
+var a = 10;
+
+foo(); // "hello"
+function foo() {
+    console.log("hello");
+}
+In the creation phase:
+
+a → undefined
+
+foo → reference to function
+
+🎯 Summary Table
+Feature	Global EC	Function EC
+Created When	Script is loaded	Function is invoked
+Memory Allocated	var, function, this	Local vars, params, arguments
+Scope Chain Created	Yes	Yes
+this	Global object	Depends on caller
+
+🧠 Real Interview Insight:
+Q: What happens when a function is called in JS?
+A: A new Execution Context is created, pushed to the Call Stack, memory is allocated (creation phase), then the function is executed line-by-line (execution phase), and finally, the context is popped off the stack.

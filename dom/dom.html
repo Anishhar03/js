@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+</head>
+<body>
+  <h1>This is a code snippet by ANISH</h1>
+  <button>Click me naa</button>
+
+  <script>
+    // Always use const or let for declaring variables
+    const btn = document.querySelector("button");
+    const head = document.querySelector("h1");
+
+    // Add event listener on button click
+    btn.addEventListener("click", () => {
+      head.textContent = "Text Changed by Button Click!";
+    });
+  </script>
+</body>
+</html>

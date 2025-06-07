@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Async/Await + DOM + BG Color</title>
+</head>
+<body>
+  <h1 id="main-heading">Anish Kumar</h1>
+  <button id="suno">Start BG Change</button>
+  <button id="mat_suno">Stop BG Change</button>
+
+  <script>
+    // Function to generate a random hex color code
+    const randomColor = () => {
+      const hex = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += hex[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    };
+
+    // Function to change background color AND simulate an API call
+    async function changeBgColor() {
+      const color = randomColor();
+      document.body.style.backgroundColor = color;
+
+      // Fake async operation (simulate fetching data)
+      const heading = document.getElementById("main-heading");
+      const fetchedMessage = await simulateFetchMessage(color); // Awaiting fake API
+      heading.textContent = fetchedMessage;
+    }
+
+    // Simulates an async API call with a delay (returns a message with the color)
+    async function simulateFetchMessage(color) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(`Background Changed to ${color}`);
+        }, 500); // Half-second delay
+      });
+    }
+
+    // Interval ID storage to control setInterval
+    let intervalId = null;
+
+    // Starts changing the background color every second
+    const startIt = () => {
+      if (!intervalId) {
+        intervalId = setInterval(changeBgColor, 1000);
+        console.log("Started background changer.");
+      }
+    };
+
+    // Stops the interval using stored ID
+    const stopIt = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+        document.getElementById("main-heading").textContent = "Stopped Changing BG";
+        console.log("Stopped background changer.");
+      }
+    };
+
+    // Attaching event listeners to buttons
+    document.querySelector("#suno").addEventListener("click", startIt);
+    document.querySelector("#mat_suno").addEventListener("click", stopIt);
+  </script>
+</body>
+</html>
